@@ -1,0 +1,59 @@
+.386
+.model flat, stdcall
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;includem biblioteci, si declaram ce functii vrem sa importam
+includelib msvcrt.lib
+extern exit: proc
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;declaram simbolul start ca public - de acolo incepe executia
+public start
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;sectiunile programului, date, respectiv cod
+.data
+;aici declaram date
+
+.code
+write_data_in_hamming proc
+push EBP
+mov EBP,ESP
+
+mov ESI,[EBP+8] ;luam primul argument care este adresa sirului sursa
+mov EDI,[EBP+12] ; luam al doilea argument care este adresa sirului in care dorim sa scriem datele
+
+add EDI,2
+mov ECX,1
+rep movsb ;scrie pe pozitia 3
+	
+add EDI,1
+mov ECX,3
+rep movsb ;scrie pe pozitiile 5-7
+	
+add EDI,1
+mov ECX,7
+rep movsb ;scrie pe pozitiile 9-15
+	
+add EDI,1
+mov ECX,15
+rep movsb ;scrie pe pozitiile 17-31
+	
+add EDI,1
+mov ECX,6
+rep movsb ;scrie pe pozitiile 33-38
+
+mov ESP,EBP
+pop EBP
+ret
+write_data_in_hamming endp
+start:
+	;aici se scrie codul
+	
+	;terminarea programului
+	push 0
+	call exit
+end start
+
+
+
